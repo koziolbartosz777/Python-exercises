@@ -1,0 +1,20 @@
+{
+    "tasks": [
+        {
+            "description": "Brush my teeth",
+            "complete": true
+        },
+        {
+            "description": "Learn python at least 1 hour a day",
+            "complete": false
+        },
+        {
+            "description": "learn englisch and german daily",
+            "complete": false
+        },
+        {
+            "description": "eat healthy",
+            "complete": false
+        }
+    ]
+}
