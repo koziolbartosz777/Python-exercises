@@ -1,0 +1,1 @@
+user_choice = input("Enter your choice: ").lower()
