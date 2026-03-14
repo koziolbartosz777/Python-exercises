@@ -48,25 +48,29 @@ while True:
     total_time = end_time - start_time
     #Counting the percentage based on fist_time correct guesses
     accuracy = (right_guesses/problems_count)*100
+    final_score = (accuracy * problems_count * 100)/total_time
     print(f"Your first_time answers percentage: {accuracy} %")
     print(f"Total mistakes made: {wrong_guesses}") #not first-time correct answer counter
     print(f"This test took you {total_time:.2f} seconds")
+    print(f"This try score: {round(final_score)}")
 
     while True:
-        save_retry_quit_choice = input("Press 's' to save your result "
-        "\n      'q' to quit" \
-        "\n      'r' to have one more try: ")
+        print("""
+        (s) Save
+        (r) Retry
+        (q) Quit\n""")
 
+        save_retry_quit_choice = input("Enter your choice: ")
 
-        if save_retry_quit_choice == 'q':
+        if save_retry_quit_choice == 'q':  #quit option
+            print("Thanks for playing! Bye :)")
             exit()
-        elif save_retry_quit_choice == "r":
+        elif save_retry_quit_choice == "r": #retry
             break
 #Introducing the logic of recording resulst and ranking 
         elif save_retry_quit_choice == 's':
             user_name = input("Enter your name/nickname: ").strip().lower()
 
-            final_score = (accuracy * problems_count * 100)/total_time
 
             user_results = {
                 "Competitor name": user_name,
@@ -76,14 +80,14 @@ while True:
             }
             #saving resulst into challenge_results file in order to add them to ranking
             try:
-                with open('challenge_results.json', 'r') as file:
+                with open('timed_math_challenge/challenge_results.json', 'r') as file:
                     leaderboard = json.load(file)
             except FileNotFoundError:
                 leaderboard = []
 
             leaderboard.append(user_results)
 
-            with open('challenge_results.json', 'w') as file:
+            with open('timed_math_challenge/challenge_results.json', 'w') as file:
                 json.dump(leaderboard, file, indent=4)
 
             print("\nSaved successfully in JSON file.")
