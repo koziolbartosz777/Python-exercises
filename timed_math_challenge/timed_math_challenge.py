@@ -13,7 +13,32 @@ def generate_problem():
 
     expression = str(left) + " " + operator + " " + str(right)
     answer = eval(expression)
-    return expression, answer
+
+    calculate_difficulty = calculate_difficulty(left, right, operator)
+    
+    return expression, answer, calculate_difficulty
+
+def calculate_difficulty(left, right, operator):
+    difficulty = 1.0
+
+    if operator in ["+", "-"]:
+        if left>9:
+            difficulty+=0.5
+        if right>9:
+            difficulty+=0.5
+    elif operator == "*":
+        if left in [1,10] or right in [1,10]:  #only 1 or 10 for left of right operand
+            difficulty+=0.7
+        elif left == 11 or right == 11:
+            difficulty+=1.5
+        elif left > 11 or right > 11:
+            difficulty+=4.0
+        else:
+            difficulty += 1.9
+
+    return difficulty
+
+
 
 while True: 
     problems_count = input("Enter how many problems you want to solve ('q' to quit): ")
