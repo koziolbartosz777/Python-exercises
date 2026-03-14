@@ -14,9 +14,9 @@ def generate_problem():
     expression = str(left) + " " + operator + " " + str(right)
     answer = eval(expression)
 
-    calculate_difficulty = calculate_difficulty(left, right, operator)
-    
-    return expression, answer, calculate_difficulty
+    difficulty = calculate_difficulty(left, right, operator)
+
+    return expression, answer, difficulty
 
 def calculate_difficulty(left, right, operator):
     difficulty = 1.0
@@ -52,9 +52,13 @@ while True:
 
     wrong_guesses = 0
     right_guesses = 0
+    total_difficulty =0
+    
 
-    for i in range (problems_count):
-        expression, answer = generate_problem()
+    for i in range(problems_count):
+        expression, answer, difficulty = generate_problem()
+        total_difficulty+=difficulty
+
         first_try = True
         
         while True:
@@ -70,10 +74,13 @@ while True:
                 continue
 
     end_time = time.time()
-    total_time = end_time - start_time
+    time_end_start_diff = end_time - start_time
+
     #Counting the percentage based on fist_time correct guesses
+    penalty_time = wrong_guesses * 2
+    total_time = time_end_start_diff + penalty_time
     accuracy = (right_guesses/problems_count)*100
-    final_score = (accuracy * problems_count * 100)/total_time
+    final_score = (accuracy * total_difficulty * 100)/total_time
     print(f"Your first_time answers percentage: {accuracy} %")
     print(f"Total mistakes made: {wrong_guesses}") #not first-time correct answer counter
     print(f"This test took you {total_time:.2f} seconds")
@@ -85,7 +92,7 @@ while True:
         (r) Retry
         (q) Quit\n""")
 
-        save_retry_quit_choice = input("Enter your choice: ")
+        save_retry_quit_choice = input("Enter your choice: ").strip().lower()
 
         if save_retry_quit_choice == 'q':  #quit option
             print("Thanks for playing! Bye :)")
@@ -107,7 +114,7 @@ while True:
             try:
                 with open('timed_math_challenge/challenge_results.json', 'r') as file:
                     leaderboard = json.load(file)
-            except FileNotFoundError:
+            except (FileNotFoundError, json.JSONDecodeError):
                 leaderboard = []
 
             leaderboard.append(user_results)
@@ -126,7 +133,7 @@ while True:
                 print(f"{index+1}. {player['Competitor name']} | Points: {player['Score']} | Time: {player['Time']} seconds")
             print("-"*25 + "\n")
 
-            break
+        break
 
 
 
