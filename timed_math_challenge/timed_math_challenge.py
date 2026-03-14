@@ -1,6 +1,7 @@
 import random
 import time
 import json
+import datetime
 
 operators = ["+", "-", "*"]
 min_operand = 1
@@ -108,7 +109,8 @@ while True:
                 "Competitor name": user_name,
                 "Accuracy" : accuracy,
                 "Time": round(total_time, 2),
-                "Score": round(final_score)
+                "Score": round(final_score),
+                "Date": datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
             }
             #saving resulst into challenge_results file in order to add them to ranking
             try:
@@ -130,7 +132,7 @@ while True:
             print("\n🏆 --- TOP 3 RANKING --- 🏆")
             
             for index, player in enumerate(leaderboard[:3]):
-                print(f"{index+1}. {player['Competitor name']} | Points: {player['Score']} | Time: {player['Time']} seconds")
+                print(f"{index+1}. {player['Competitor name']} | Points: {player['Score']} | Time: {player['Time']} seconds | Date: {player.get("Date", 'N/A')}")
             print("-"*25 + "\n")
 
         break
